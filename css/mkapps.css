@@ -1,0 +1,57 @@
+body{
+	background-color: black;
+}
+
+.container{
+	width: 375px;
+	border: solid;
+	border-color: #eee;
+	border-radius: 15px;
+	margin-top: 40px;
+	background-color: white;
+
+}
+
+.actions{
+	text-align: center;
+}
+
+.aceptar{
+	margin: 0 auto 5px;
+
+}
+
+.tabla_contenedor{
+	width: 90%;
+	margin: 20px auto;
+	text-align: center;
+	background-color: white;
+}
+
+table{
+	background-color: white;
+	text-align: center;
+}
+
+th{
+	text-align: center;
+}
+
+#divLoading
+{
+    display : none;
+}
+
+#divLoading.show
+{
+    display : block;
+    position : fixed;
+    z-index: 100;
+    background-image : url('../files/gears.gif');
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
+}
