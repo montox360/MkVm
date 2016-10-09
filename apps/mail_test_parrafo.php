@@ -182,44 +182,18 @@ Importante: RECORDATORIO DE RENOVACI&Oacute;N. Vencimiento: <b>".$marca['FechaVe
 <br>
 Estimados se&ntilde;ores:<br>
 <div align=\"justify\">
-Le   recordamos  que  la  renovaci&oacute;n  del  registro  indicado  en  el
-referencia debe efectuarse antes del plazo mencionado anteriormente.<br>
+Le   recordamos  que  la  renovaci&oacute;n  del  registro  indicado  en  la
+referencia debe efectuarse antes del plazo mencionado anteriormente. Es muy importante que antes de dar instrucciones 
+y/o realizar los pagos por transferencia, deben consultar sobre eventuales reclasificaciones a las clases locales o nacionales en Venezuela.<br>
 <br>
-1.-  De acuerdo a la publicaci&oacute;n en Gaceta Oficial N&ordm; 40.865, el costo
-actual de este servicio es de US $ 1.790,00 (+ impuesto del Banco para
-la renovaci&oacute;n).<br>
+1.-  De acuerdo a la publicaci&oacute;n en Gaceta Oficial N&ordm; 40.865, la tasa
+actual para una renovaci&oacute;n es de US $ 1.890,00 (incluyendo gastos bancarios) mas USD $55.00 de gastos administrativos para la solicitud; para un total de gastos oficiales de USD $1,945.00<br>
 <br>
-Los  datos  para  la  transacci&oacute;n  de  la  tasa  de renovaci&oacute;n son los
-siguientes:<br>
+Nuestros honorarios para este servicio es de USD $330.00.<br>
 <br>
-Beneficiario:  Banco Bicentenario del Pueblo de la Clase Obrera, Mujer
-y Comunas, Banco Universal C.A <br>
-Cuenta No: 36252699<br>
-Direcci&oacute;n  F&iacute;sica  del  Beneficiario:  Av.  Venezuela,  Urb. El Rosal,
-Edificio  Banco  Bicentenario, Caracas - Venezuela<br>
-Banco  Beneficiario:  CITIBANK ABA No.: 021000089 / SWIFT: CITIUS33XXX
-Direcci&oacute;n  del  Banco:  NEW  YORK,  USA<br>
-Instrucciones  al  Beneficiario: Acreditar a cta. SAPI moneda ext. No.
-0175-0473-81-0073423-544. Renovaci&oacute;n - Registro No. ".$marca['Registro'].".<br>
+El monto total por renovaci&oacute;n es de: USD $2,275.00.<br>
 <br>
-Una  vez realizada la transferencia, deben enviarnos el comprobante de
-pago  para  que  la Oficina de Marcas pueda verificar y emitir la tasa
-(factura) con la cual se acredita el pago de la tasa de renovaci&oacute;n.<br>
-<br>
-2.-  US$  385.00  (Honorarios  Profesionales  +  Gastos  Oficiales)*<br>
-*Acreditar  a  la cuenta bancaria de la compa&ntilde;&iacute;a (abajo se indica), una
-vez que le enviemos la nota de d&eacute;bito por los honorarios profesionales
-m&aacute;s los gastos oficiales.<br>
-<br> 
-Es  muy  importante  que  antes  de dar instrucciones y/o realizar los
-pagos    por   transferencia,   deben   consultar   sobre   eventuales
-reclasificaciones a las clases locales o nacionales en Venezuela.<br>
-<br>
-Igualmente,  le  ofrecemos  la opci&oacute;n en el caso de que desee proceder
-con  la  renovaci&oacute;n  de  la  marca  comercial, de depositar en nuestra
-cuenta  bancaria.  Si  elige  esta opci&oacute;n, debe sumar US $ 100.00 para
-cargos  Bancarios.  Los  datos de nuestra cuenta bancaria se indican a
-continuaci&oacute;n:<br>
+Los  datos de nuestra cuenta bancaria se indican a continuaci&oacute;n:<br>
 <br>
 Beneficiario: Montoya Kociecki & Asociados<br>
 Banco      : TOTALBANK,<br>
@@ -228,6 +202,8 @@ Direcci&oacute;n  : 100 SE 2nd Street, floor 14.<br>
 Cuenta No. : 1002027106<br>
 ABA No.    : 066009155<br>
 SWIFT      : TLBKUS3M<br>
+<br>
+Si ustedes tienen inter&eacute;s en este servicio nosotros podemos enviarles anticipadamente la factura por el monto total para que pueda ser pagada antes de la fecha de vencimiento de renovaci&oacute;n.<br>
 <br>
 De  no  tener  respuesta,  consideraremos  que no tienen inter&eacute;s en la
 marca y se proceder&aacute; a eliminar este caso de nuestros archivos.<br>

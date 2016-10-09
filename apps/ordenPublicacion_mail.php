@@ -16,7 +16,7 @@ $mail->Username = 'publicaciones_boletin@mkmarcas.com';                 // SMTP 
 $mail->Password = 'Nightfire123!';                           // SMTP password
 $mail->SMTPSecure = 'tsl';                            // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 587;  
-$mail->CharSet = 'UTF-8';                                  // TCP port to connect to
+                                  // TCP port to connect to
 
 $mail->setFrom('exterior@mkmarcas.com', 'Montoya, Kociecki & Asociados');
 $arr = explode(',',str_replace(' ', '', $cliente['ClienteMail']));
@@ -37,7 +37,7 @@ $conarr = explode(',', str_replace(' ', '', $contactos[$marca['Codigo']]));
 foreach($conarr as $contac){
     $mail->addAddress($contac);
 }
-
+//$mail->addAddress('lmontoya@mkmarcas.com');
 // Add a recipient
 //$mail->addAddress('lmontoya@mkmarcas.com');
 	//$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]);
@@ -48,17 +48,17 @@ $mail->isHTML(true);                                  // Set email format to HTM
 
 
 if($idioma==2){
-$mail->Subject = "OFFICIALLY GRANTED! Trademark: ".$marca['NombreMarca'].", Application No. ".$marca['Solicitud'].", in Int Class ".$marca['ClaseInt']."
+$mail->Subject = "NEWSPAPER PUBLICATION ORDER! Trademark: ".$marca['NombreMarca'].", Application No. ".$marca['Solicitud'].", in Int Class ".$marca['ClaseInt']."
  in Venezuela, o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }else{
-	$mail->Subject = "CONCESION OFICIAL! Marca: ".$marca['NombreMarca'].", Inscripcion No. ".$marca['Solicitud'].", en Clase ".$marca['ClaseInt']."
+	$mail->Subject = "ORDEN DE PUBLICACION EN PRENSA! Marca: ".$marca['NombreMarca'].", Inscripcion No. ".$marca['Solicitud'].", en Clase ".$marca['ClaseInt']."
  en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }
 
 if($idioma==2)
 {
 
-$mail->Body    ="<p align=\"right\">Caracas, August 22, 2016.</p>
+$mail->Body    ="<p align=\"right\">Caracas, September 26, 2016.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -71,45 +71,31 @@ Re: ".$marca['Propietario']."<br>
 &nbsp; &nbsp; &nbsp; Application No. ".$marca['Solicitud'].", in Int Class&nbsp;".$marca['ClaseInt'].",(local class ".$marca['ClaseLocal'].") in&nbsp;Venezuela<br>
 &nbsp; &nbsp; &nbsp; o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT)."<br>
 <br>
-Status:&nbsp;<b>OFFICIALLY GRANTED</b><br>
+Status:&nbsp;<b>NEWSPAPER PUBLICATION ORDER.</b><br>
 <br>
-<b>Important:&nbsp;</b>OFFICIALLY GRANTED, Deadline: <b>".$vencimiento."</b> <br>
+<b>Important:&nbsp;</b>NEWSPAPER PUBLICATION ORDER, Deadline: <b>".$vencimiento."</b> <br>
 <br>
 Dear Sirs:<br>
+<br>
 <div align=\"justify\">
-Please  be  advised  that, the case of trademark application quoted in
-the  reference has been granted. It is necessary to pay the final fees
-in  order  to  obtain  the  registration  number.  The  cost  for this
-procedure is as follows:<br>
+Due to the recent change of IP Law, in our country, the publication of
+trademarks  must be first effected in a daily newspaper and afterwards
+published in the Official Bulletin.<br>
 <br>
-1.- US$ 1250.00 (Final Fees + Bank charges).<br>
-2.- US$ 200.00 (Service charges).<br>
+The  cost of the publication in a Sapi digital newspaper is US$ 106.00
+plus US$ 110.00 for our service charges. In case you have already paid in advance for this service or if we have
+a special agreement between our officies, please omit the charges informed
+in this e-mail.<br>
 <br>
-Given  the inconvenients we have had with our clients at the moment of
-executing  the  wire-transfer directly to the bank account of the PTO,
-we are suggesting to execute the transfer directly to our bank account
-at least 10 days before the deadline.<br>
+The  publication  must  be  effected  as soon as possible, immediately
+after  the  publication  notice  appears  in the Official Bulletin. We
+would  therefore  need  your  immediate  response,  if  the  client is
+interested in following the registration procedure.<br>
 <br>
-The  total  amount  to pay for the final fees and our services is: US$
-1,450.00.  If  you require our debit note in advance for this concept,
-please let us know and we will send it to you immediately.<br>
+Please  respond  by return mail, if we are allowed to proceed with the
+publication and that our estimated costs will be paid.<br>
 <br>
-The information to proceed with this wire-transfer is as follows:<br>
-Beneficiary: Montoya Kociecki & Asociados<br>
-Bank       : TOTALBANK,<br>
-Address    : 100 SE 2nd Street, floor 14.<br>
-             Torre Downtown Miami, Florida 33131, USA<br>
-Account No.: 1002027106<br>
-ABA No.    : 066009155<br>
-SWIFT      : TLBKUS3M<br>
-<br>
-Taking  into account the new ruling in Venezuela, it is very important
-that  before  giving  instructions  or  make transfers to renew should
-consult  on possible reclassifications to local classes in Venezuela ,
-if applicable.<br>
-<br>
-Take  into  account  that  the  retrieval  of  the  registration
-certificate at the moment of its issuance and the surveillance service of the trademark until the next expiration date will have a cost of US$ 105.00 + Courier.<br>
+Your prompt attention to this message is appreciated.<br>
 <br>
 Very truly yours,<br>
 <br>
@@ -147,7 +133,7 @@ Best regards.<br>
 MONTOYA, KOCIECKI & ASOCIADOS.</div>";
 */
 else{
-$mail->Body    ="<p align=\"right\">Caracas, Agosto 22, 2016.</p> 
+$mail->Body    ="<p align=\"right\">Caracas, Septiembre 26, 2016.</p> 
 Se&ntilde;ores<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -166,38 +152,29 @@ Vencimiento: <b>".$vencimiento."</b><br>
 <br>
 Estimados se&ntilde;ores:<br>
 <div align=\"justify\">
-La  presente es para informarles que la marca citada en la referencia,
-ha sido concedida.<br>
+
+En  vista  de  los  cambios  de  ley  de  la  Propiedad Industrial, en
+Venezuela,  las solicitudes de registro de marcas deben ser publicadas
+en  un  peri&oacute;dico de circulaci&oacute;n diaria y posteriormente en el Bolet&iacute;n
+de la Propiedad Industrial.<br>
 <br>
-El costo para atender el tramite de concesión es el siguiente:<br>
+El  costo  de la publicaci&oacute;n arriba mencionada en el Peri&oacute;dico Digital
+del SAPI es de US$ 106.00 m&aacute;s US$ 110.00 por nuestros servicios. En caso de que hayan pagado por adelantado o se haya llegado a un acuerdo especial
+entre nuestras oficinas, por favor omita las tarifas informadas en este correo.<br>
 <br>
-1.- US$ 1250.00 (Tasa oficial + Comisiones bancarias).<br>
-2.- US$ 200.00 (Nuestros Honorarios).<br>
+La  publicaci&oacute;n  en  prensa  debe ser efectuada en el peri&oacute;dico lo mas
+pronto  posible  una  vez  sea  ordenada en el Bolet&iacute;n Oficial. Por lo
+tanto agradecemos recibir una pronta respuesta manifestando su inter&eacute;s
+en  la  continuaci&oacute;n  del  tr&aacute;mite.  El no cumplimiento del mencionado
+requisito  dentro  del  lapso  previsto  traer&aacute;  como  consecuencia el
+abandono de la solicitud.<br>
 <br>
-Dado  los  inconvenientes que han tenido nuestros clientes en realizar
-el  pago  directo  a la cuenta de la Oficina de Marcas, nos permitimos
-sugerirles  que realicen el pago directamente en la cuenta de Montoya,
-Kociecki & Asociados, con al menos 10 dias antes del vencimiento.<br>
-<br>
-El  monto  total para pago de impuestos finales es: 1,450.00. Si usted
-requiere  la  factura  para  este  concepto  por favor informenos para
-enviarsela de inmediato.<br>
-<br>
-Los datos para la transacción son los siguientes:<br>
-Beneficiario: Montoya Kociecki & Asociados<br>
-Banco      : TOTALBANK,<br>
-Direcci&oacute;n  : 100 SE 2nd Street, floor 14.<br>
-             Torre Downtown Miami, Florida 33131, USA<br>
-Cuenta No. : 1002027106<br>
-ABA No.    : 066009155<br>
-SWIFT      : TLBKUS3M<br>
-<br>
-Por  favor,  tomar  en  cuenta que el retiro del
-certificado  de  registro  al  momento  de su emisión mas la vigilancia de la marca hasta su pr&oacute;ximo vencimiento, tendrá un costo adicional de US$ 105.00 + Courier<br>
+Quedamos a la espera de sus instrucciones.<br>
 <br>
 Atentamente,<br>
 <br>
-MONTOYA, KOCIECKI & ASOCIADOS.</div>";}
+MONTOYA, KOCIECKI & ASOCIADOS.</div>";
+}
 
 
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';

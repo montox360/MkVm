@@ -58,7 +58,7 @@ $envios = array();
 
 for ($i=0; $i<count($marcas); $i++)
 { 
-    //if($marcas[$i]['Codigo'] == 42085)  
+    if($marcas[$i]['Codigo'] != 43064 && $marcas[$i]['Codigo'] != 43065 && $marcas[$i]['Codigo'] != 43068 && $marcas[$i]['Codigo'] != 43130 && $marcas[$i]['Codigo'] != 43135 && $marcas[$i]['Codigo'] != 43137 && $marcas[$i]['Codigo'] != 43207 && $marcas[$i]['Codigo'] != 43208 && $marcas[$i]['Codigo'] != 43306 && $marcas[$i]['Codigo'] != 43307 && $marcas[$i]['Codigo'] != 43329 && $marcas[$i]['Codigo'] != 43354 && $marcas[$i]['Codigo'] != 43356 && $marcas[$i]['Codigo'] != 43357 && $marcas[$i]['Codigo'] != 43359 && $marcas[$i]['Codigo'] != 43360 && $marcas[$i]['Codigo'] != 43361)
     $envios[$marcas[$i]['Codigo']] =  createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento);//"Ok";
 }
 

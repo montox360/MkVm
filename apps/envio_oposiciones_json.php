@@ -1,6 +1,6 @@
 <?php
 include '../funciones/funciones_base.php';
-include 'mail_test_parrafo_json.php';
+include 'mail_oposicion_json.php';
 
 //Conecta a base de datos y realiza Query obteniendo los resultados.
 if (is_ajax()) {
@@ -18,10 +18,30 @@ function is_ajax() {
 
 function test_function(){
   $return = $_POST;
-  $codigos = explode(", ", $return['codigo']);
+  $codigo = $return['referencia'];
   $idioma = $return['idioma'];
-  $conexion = ConectToDatabase();
-  $results = Consulta_Renovaciones_Json($conexion, $codigos, $idioma);
+  $clienteid = $return['clienteid'];
+  $idcontacto = $return['idcontacto'];
+  $idmarcabase = $return['idmarcabase'];
+  $idmarcaopuesta = $return['idmarcaopuesta'];
+  $idioma = $return['idioma'];
+  $vencimiento = $return['vencimiento'];
+  $boletin = $return['boletin'];
+
+ $conexion = ConectToDatabase();
+
+ $cliente = Consulta_Cliente($conexion, $clienteid);
+
+ $incidenciaOpuesta = Consulta_Incidencias($conexion, $idmarcaopuesta);
+ $incidenciaBase = Consulta_Incidencias($conexion, $idmarcabase);
+
+ $contacto = Consulta_Contacto($conexion, $idcontacto);
+
+ //cerrar_conexion($conexion);
+
+ //createMail($codigo, $cliente, $incidenciaOpuesta, $incidenciaBase, $contacto, $idioma, $vencimiento, $boletin);
+
+ /* $results = Consulta_Renovaciones_Json($conexion, $codigo, $idioma);
   
   $contactos = array();
   while (!$results->EOF) {  
@@ -53,12 +73,13 @@ cerrar_conexiones($conexion, $results);
 
 $envios = array();
 
-for ($i=0; $i<count($marcas); $i++)
-{ 
-    $envios[$marcas[$i]['Codigo']] = createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $idioma);//OK
-}
+*/
+
+    $envios[$codigo] = createMail($codigo, $cliente, $incidenciaOpuesta, $incidenciaBase, $contacto, $idioma, $vencimiento, $boletin);
+
 
 $return["json"] = $envios;
+cerrar_conexion($conexion);
 
 echo json_encode($return);
 }
