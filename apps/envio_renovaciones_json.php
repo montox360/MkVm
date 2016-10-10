@@ -55,6 +55,7 @@ $envios = array();
 
 for ($i=0; $i<count($marcas); $i++)
 { 
+    
     $envios[$marcas[$i]['Codigo']] = createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $idioma);//OK
 }
 

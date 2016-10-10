@@ -19,17 +19,17 @@ $mail->Port = 587;                                    // TCP port to connect to
 
 $mail->setFrom('renewals@mkmarcas.com', 'Montoya, Kociecki & Asociados');
 $arr = explode(',',str_replace(' ', '', $cliente['ClienteMail']));
-/*
+
 foreach ($arr as $value)
 {
 	$mail->addAddress($value); 
 }
-$mail->addAddress($contactos[$marca['Codigo']]);*/
+$mail->addAddress($contactos[$marca['Codigo']]);
 // Add a recipient
-$mail->addAddress('lmontoya@mkmarcas.com');
+//$mail->addAddress('montox360@gmail.com');
 	//$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]);
 $mail->addReplyTo('exterior@mkmarcas.com', 'Renewals Exterior');
-//$mail->addBCC('renewals@mkmarcas.com');
+$mail->addBCC('renewals@mkmarcas.com');
 
 $mail->isHTML(true);                                  // Set email format to HTML
 
@@ -44,7 +44,7 @@ $mail->Subject = "RENEWAL REMINDER! Trademark: ".$marca['NombreMarca'].", Applic
 
 if($idioma==2)
 {
-$mail->Body    ="<p align=\"right\">Caracas, September 11, 2016.</p>
+$mail->Body    ="<p align=\"right\">Caracas, October 09, 2016.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -65,50 +65,11 @@ Dear Sirs:<br>
 We  remind  you  that,  the  renewal of the registration stated in the
 reference should be effected before the deadline mentioned above.<br>
 <br>
-1.-  The new current cost for this service is US$ 1790.00 (Renewal Tax
-+ Bank charges)*<br>
-<br>
-*  This  amount  should  be wired at least 30 days before the deadline
-directly to the PTO account.<br>
+1.-  The new current cost for this service is US$ 1890.00 for Renewal Tax
++ Bank charges and US$ 55.00 for administrative expenses; for a total amount in Official Fees of US$ 1,945.00<br>
 <br>
 The  information  to  proceed with the Renewal Tax wire-transfer is as
 follows:<br>
-<br>
-Beneficiary: Banco Bicentenario del Pueblo de la Clase Obrera, Mujer y
-Comunas, Banco Universal C.A<br>
-<br>
-Account No.: 36252699<br>
-<br>
-Beneficiary  Physical  Address: Av. Venezuela, Urb. El Rosal, Edificio
-Banco Bicentenario, Caracas - Venezuela<br>
-<br>
-Beneficiary Bank: CITIBANK<br>
-<br>
-ABA No.: 021000089 / SWIFT: CITIUS33XXX<br>
-Address of the bank: NEW YORK, USA<br>
-<br>
-Beneficiary Instructions:<br>
-<br>
-Credit      to     SAPI     account.     Foreign     Currency.     No.
-0175-0473-81-0073423-544. Renewal - Registration. No. ".$marca['Registro'].".<br>
-<br>
-Once  the Renewal Tax amount has been transfered to the PTO's Account,
-you must send us the transfer receipt, so we can file it at the PTO in
-order  for  the  trademark  Office to confirm the payment and emit the
-official invoice.<br>
-<br>
-2.-  US$ 385.00 (Service Charges + Official Fees)*<br>
-<br>
-*This  amount should be accredited to the company Bank account (stated
-below)  once  we  have sent you our debit note for the Service Charges
-and the Official fees.<br>
-<br>
-Otherwise,  in  case  that you wish to proceed with the renewal of the
-trademark,  we offer you the option to deposit in our bank account the
-above  mentioned  amount.  If  you choose this option you must add US$
-100.00  for  bank  charges.  The  particulars  of our bank account are
-stated below:<br>
-<br>
 Beneficiary: Montoya Kociecki & Asociados<br>
 Bank       : TOTALBANK,<br>
 Address    : 100 SE 2nd Street, floor 14.<br>
@@ -116,6 +77,14 @@ Address    : 100 SE 2nd Street, floor 14.<br>
 Account No.: 1002027106<br>
 ABA No.    : 066009155<br>
 SWIFT      : TLBKUS3M<br>
+<br>
+Once  the Renewal Official Fees amount has been transfered to our Account,
+please send us the transfer receipt.<br>
+<br>
+2.-  US$ 330.00 for Service Charges *<br>
+<br>
+*This  amount should be accredited to our company Bank account
+once  we  have sent you our debit note for the Service Charges with our filing receipts.<br>
 <br>
 Taking  into account the new ruling in Venezuela, it is very important
 that  before  giving  instructions  or  make transfers to renew should
