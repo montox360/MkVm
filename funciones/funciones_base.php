@@ -29,6 +29,16 @@ $results = $conexion->Execute("SELECT B.Numero as BoletinNumero, EP.Codigo, C.Id
 return $results;
 }
 
+function Consulta_Oposiciones_Nacional($conexion, $boletin){
+$results = $conexion->Execute("SELECT B.Numero as BoletinNumero, EP.Codigo, C.Id as ClienteId, C.Nombre as ClienteNombre, EP.IdContacto, MI.Id as IdMarcaBase, EP.IdMarcaOpuesta
+  FROM Publicaciones AS p, ExpedientesPrimarios as EP, Clientes as C, MarcasIncidencias as MI, Boletines as B
+  WHERE p.Descripcion LIKE 'Ratific% Observada' AND B.Numero = '".$boletin."' 
+  AND (p.Materia = 'ACCIONATERCERO' OR p.Materia = 'OPOSICION') AND p.IdExpedientePrincipal = EP.Id AND EP.Inactivo = 0 
+  AND (EP.IdCliente = C.Id)  AND C.IdPais = 434 AND C.IdIdioma = 1 AND EP.Id = MI.IdExpediente");
+	//OR E.IdContacto IS NULL) 
+return $results;
+}
+
 function Consulta_Codigo($conexion, $codigo){
 	$results = $conexion->Execute("SELECT * FROM ExpedientesPrimarios WHERE Codigo = ".$codigo.";");
 		return $results;
@@ -46,6 +56,12 @@ function Consulta_Contacto($conexion, $contactoid){
 
 function Consulta_Incidencias($conexion, $codigo){
 	$results = $conexion->Execute("SELECT MI.PropietarioNombre, MI.Nombre as Marca, MI.Clase, MI.SolicitudNro as Solicitud, MI.RegistroNro as Registro, P.Nombre as Pais FROM MarcasIncidencias as MI, Paises as P WHERE MI.Id = ".$codigo." AND P.Id = MI.IdPais;");
+	return $results;
+}
+
+function Consulta_Incidencia_Base($conexion, $codigo){
+
+	$results = $conexion->Execute("SELECT MI.PropietarioNombre, MI.Nombre as Marca, MI.Clase, MI.SolicitudNro as Solicitud, MI.RegistroNro as Registro, P.Nombre as Pais FROM MarcasIncidencias as MI, Paises as P WHERE (MI.Id = ".$codigo." AND P.Id = MI.IdPais) OR Mi.Id = ".$codigo.";");
 	return $results;
 }
 
@@ -487,5 +503,33 @@ echo"</table></div>";
 cerrar_conexiones($conexion, $results);
 }
 
+function oposiciones_onscreen_nacional($conexion, $boletin)
+{
+$results = Consulta_Oposiciones_Nacional($conexion, $boletin);  
+
+echo "<div><table id =\"tabla_reporte\" class=\" col-lg-12 table table-bordered table-hover table-striped tablesorter renewals_onscreen;\">"; 
+$counter = 1;
+echo "<thead>
+        <tr>
+        	<th class=\"header\">#<i class=\"fa fa-sort\"></i></th>
+        	<th class=\"header\">Boletin No<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Referencia<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Cliente Nombre<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">ID Marca Base<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Id Marca Opuesta<i class=\"fa fa-sort\"></i></th>
+        </tr>
+      </thead>";
+while (!$results->EOF) {  
+		echo "<tr id=\"caso\">";
+		$fv = $results->Fields("Codigo");
+	    echo "<td>".$counter."</td><td>".$results->Fields("BoletinNumero")->value."</td><td id=\"referencia\" referencia=\"".$fv->value."\">AT".str_pad($fv->value, "6", "0", STR_PAD_LEFT)."</td><td ClienteId = \"".$results->Fields("ClienteId")->value."\">".$results->Fields("ClienteNombre")->value."</td><td IdMarcaBase = \"".$results->Fields("IdMarcaBase")->value."\">".$results->Fields("IdMarcaBase")->value."</td><td IdMarcaOpuesta = \"".$results->Fields("IdMarcaOpuesta")->value."\">".$results->Fields("IdMarcaOpuesta")->value."</td>"; 
+	    $results->MoveNext(); 
+	    echo "</tr>"; 
+	    $counter++;   
+} 
+echo"</table></div>";
+
+cerrar_conexiones($conexion, $results);
+}
 
 ?>
