@@ -1,6 +1,6 @@
 <?php
 include '../funciones/funciones_base.php';
-include 'concedidas_mail.php';
+include 'certificados_mail.php';
 
 //Conecta a base de datos y realiza Query obteniendo los resultados.
 if (is_ajax()) {
@@ -18,22 +18,27 @@ function is_ajax() {
 
 function test_function(){
   $return = $_POST;
-  $vencimiento = $return['vencimiento'];
   $codigos = explode(", ", $return['codigo']);
   $conexion = ConectToDatabase();
-  $results = Consulta_Concedidas_Json($conexion, $codigos);
+  $results = Consulta_Certificados_Json($conexion, $codigos);
   $contactos = array();
-  $archivos = array();
+  $certificados = array();
+  $resultFacturas = Consulta_facturas_certificados($conexion, $codigos);
   
   while (!$results->EOF) {  
     $fv = $results->Fields("Codigo");
     $contactos[$fv->value] = $results->Fields("EInfoContacto")->value;
-    $archivos[$results->Fields('Codigo')->value] =  $results->Fields("Archivo")->value;
+    $certificados[$results->Fields('Codigo')->value] =  $results->Fields("Archivo")->value;
     $results->MoveNext(); 
-  
+  }
+
+  while(!$resultFacturas->EOF){
+     $facturas[$resultFacturas->Fields('Codigo')->value] = $resultFacturas->Fields('Archivo')->value; 
+     $resultFacturas->MoveNext(); 
   }
 
 $results->MoveFirst();
+$resultFacturas->MoveFirst();
 //Array para guardar informacion a extraer de la vista web a la hora de generar el correo
 $expedientes = array();
 
@@ -50,18 +55,14 @@ borrar_results($results);
 
 $marcas = array();
 
-$marcas = obtener_datos_concedidas($conexion, $marcas, $expedientes);
+$marcas = obtener_datos_solicitadas($conexion, $marcas, $expedientes);
 
 cerrar_conexiones($conexion, $results);
 
 $envios = array();
-
 for ($i=0; $i<count($marcas); $i++)
 { 
-  
-      $envios[$marcas[$i]['Codigo']] =  createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento);
-  
-    //"Ok";
+    $envios[$marcas[$i]['Codigo']] = createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $certificados[$marcas[$i]['Codigo']], $facturas[$marcas[$i]['Codigo']]);//"Ok";
 }
 
 /*$envios[$marcas[0]['Codigo']] = createMail($marcas[0], $clientes[$marcas[0]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[0]['Codigo']], $vencimiento);

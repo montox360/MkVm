@@ -57,8 +57,8 @@ cerrar_conexiones($conexion, $results);
 $envios = array();
 for ($i=0; $i<count($marcas); $i++)
 { 
-    //if($marcas[$i]['Codigo'] == 43338){
-    $envios[$marcas[$i]['Codigo']] = createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento, $return['boletin']);
+   if($i>=0){
+    $envios[$marcas[$i]['Codigo']] = createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento, $return['boletin']);}
     //"Ok";
 }
 

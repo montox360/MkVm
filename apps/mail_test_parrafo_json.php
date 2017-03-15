@@ -17,7 +17,7 @@ $mail->Password = 'Nightfire123!';                           // SMTP password
 $mail->SMTPSecure = 'tsl';                            // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 587;                                    // TCP port to connect to
 
-$mail->setFrom('renewals@mkmarcas.com', 'Montoya, Kociecki & Asociados');
+$mail->setFrom('exterior@mkmarcas.com', 'Montoya, Kociecki & Asociados');
 $arr = explode(',',str_replace(' ', '', $cliente['ClienteMail']));
 
 foreach ($arr as $value)
@@ -25,14 +25,15 @@ foreach ($arr as $value)
 	$mail->addAddress($value); 
 }
 $mail->addAddress($contactos[$marca['Codigo']]);
+
 // Add a recipient
 //$mail->addAddress('montox360@gmail.com');
+//$mail->addAddress('amontoya@mkmarcas.com');
 	//$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]);
 $mail->addReplyTo('exterior@mkmarcas.com', 'Renewals Exterior');
 $mail->addBCC('renewals@mkmarcas.com');
 
 $mail->isHTML(true);                                  // Set email format to HTML
-
 
 if($idioma==2){
 $mail->Subject = "RENEWAL REMINDER! Trademark: ".$marca['NombreMarca'].", Application No. ".$marca['Solicitud'].", Registration No. ".$marca['Registro'].", in Int Class ".$marca['ClaseInt']."
@@ -41,10 +42,12 @@ $mail->Subject = "RENEWAL REMINDER! Trademark: ".$marca['NombreMarca'].", Applic
 	$mail->Subject = "RECORDATORIO DE RENOVACION! Marca: ".$marca['NombreMarca'].", Inscripcion No. ".$marca['Solicitud'].", Registro No. ".$marca['Registro'].", en Clase ".$marca['ClaseInt']."
  en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }
-
+$fecha = explode('/',$marca['FechaVencimiento']);
+$fecha = $fecha[1].'/'.$fecha[0].'/'.$fecha[2];
 if($idioma==2)
 {
-$mail->Body    ="<p align=\"right\">Caracas, October 09, 2016.</p>
+$mail->Body    ="
+<p align=\"right\">Caracas, Marzo 10, 2017.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -58,15 +61,19 @@ Re: ".$marca['Propietario']."<br>
 &nbsp; &nbsp; &nbsp; o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT)."<br>
 <br>
 Status:&nbsp;<b>".$marca['Estado']."</b><br>
-<b>Important:&nbsp;</b>RENEWAL REMINDER, Deadline: <b>".$marca['FechaVencimiento']." UNEXTENDABLE</b> <br>
+<b>Important:&nbsp;</b>RENEWAL REMINDER, Deadline: <b>".date("F j, Y", strtotime($fecha))." UNEXTENDABLE</b> <br>
 <br>
 Dear Sirs:<br>
 <div align=\"justify\">
 We  remind  you  that,  the  renewal of the registration stated in the
 reference should be effected before the deadline mentioned above.<br>
 <br>
-1.-  The new current cost for this service is US$ 1890.00 for Renewal Tax
-+ Bank charges and US$ 55.00 for administrative expenses; for a total amount in Official Fees of US$ 1,945.00<br>
+1.-  The new current cost as of March 1st, 2017, for this service is US$ 3,100.00 for Renewal Tax
++ Bank charges and US$ 55.00 for administrative expenses; for a total amount in Official Fees of US$ 3,155.00<br>
+<br>
+2.-  US$ 330.00 for Service Charges*<br>
+<br>
+For a total amount of US$ 3,485.00<br>
 <br>
 The  information  to  proceed with the Renewal Tax wire-transfer is as
 follows:<br>
@@ -81,8 +88,6 @@ SWIFT      : TLBKUS3M<br>
 Once  the Renewal Official Fees amount has been transfered to our Account,
 please send us the transfer receipt.<br>
 <br>
-2.-  US$ 330.00 for Service Charges *<br>
-<br>
 *This  amount should be accredited to our company Bank account
 once  we  have sent you our debit note for the Service Charges with our filing receipts.<br>
 <br>
@@ -94,7 +99,6 @@ if applicable.<br>
 In  case we do not receive an explicit answer ordering the renewal, we
 will consider that you are not interested in the trademark and we will
 proceed to eliminate this case from our files.<br>
-<br>
 <br>
 Very truly yours,<br>
 <br>
@@ -132,7 +136,10 @@ Best regards.<br>
 MONTOYA, KOCIECKI & ASOCIADOS.</div>";
 */
 else{
-$mail->Body    ="<p align=\"right\">Caracas, Mayo 11, 2016.</p>
+
+setlocale(LC_TIME, 'es_ES.UTF-8');
+$mail->Body    ="
+<p align=\"right\">Caracas, Marzo 10, 2017.</p>
 Se&ntilde;ores<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -147,7 +154,7 @@ Ref:  ".$marca['Propietario']."<br>
 <br>
 Estado actual: &nbsp;<b>".$marca['Estado']."</b><br>
 <br>
-Importante: RECORDATORIO DE RENOVACI&Oacute;N. Vencimiento: <b>".$marca['FechaVencimiento']." IMPRORROGABLE</b><br>
+Importante: RECORDATORIO DE RENOVACI&Oacute;N. Vencimiento: <b>".strftime('%b %d, %Y', strtotime($fecha))." IMPRORROGABLE</b><br>
 <br>
 Estimados se&ntilde;ores:<br>
 <div align=\"justify\">
@@ -155,12 +162,11 @@ Le   recordamos  que  la  renovaci&oacute;n  del  registro  indicado  en  la
 referencia debe efectuarse antes del plazo mencionado anteriormente. Es muy importante que antes de dar instrucciones 
 y/o realizar los pagos por transferencia, deben consultar sobre eventuales reclasificaciones a las clases locales o nacionales en Venezuela.<br>
 <br>
-De acuerdo a la publicaci&oacute;n en Gaceta Oficial N&ordm; 40.865, la tasa
-actual para una renovaci&oacute;n es de US $ 1.890,00 (incluyendo gastos bancarios) mas USD $55.00 de gastos administrativos para la solicitud; para un total de gastos oficiales de USD $1,945.00<br>
+Por anunciio oficial a partir del Marzo 1 de 2017, la tasa actual para una renovaci&oacute;n es de US $ 3,100.00 (incluyendo gastos bancarios) mas USD $55.00 de gastos administrativos para la solicitud; para un total de gastos oficiales de USD $3,155.00<br>
 <br>
 Nuestros honorarios para este servicio es de USD $330.00.<br>
 <br>
-El monto total por renovaci&oacute;n es de: USD $2,275.00.<br>
+El monto total por renovaci&oacute;n es de: USD $3,485.00.<br>
 <br>
 Los  datos de nuestra cuenta bancaria se indican a continuaci&oacute;n:<br>
 <br>

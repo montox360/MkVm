@@ -1,6 +1,6 @@
 <?php
 include '../funciones/funciones_base.php';
-include 'concedidas_mail.php';
+include 'mail_ratificaciones_json.php';
 
 //Conecta a base de datos y realiza Query obteniendo los resultados.
 if (is_ajax()) {
@@ -18,19 +18,41 @@ function is_ajax() {
 
 function test_function(){
   $return = $_POST;
-  $vencimiento = $return['vencimiento'];
-  $codigos = explode(", ", $return['codigo']);
-  $conexion = ConectToDatabase();
-  $results = Consulta_Concedidas_Json($conexion, $codigos);
-  $contactos = array();
-  $archivos = array();
+  $codigo = $return['referencia'];
+  $idioma = $return['idioma'];
+  $clienteid = $return['clienteid'];
+  $idcontacto = $return['idcontacto'];
+  $idmarcabase = $return['idmarcabase'];
+  $idmarcaopuesta = $return['idmarcaopuesta'];
+
+ $conexion = ConectToDatabase();
+
+ $cliente = Consulta_Cliente($conexion, $clienteid);
+
+ $incidenciaOpuesta = Consulta_Incidencias($conexion, $idmarcaopuesta);
+ $incidenciaBase = Consulta_Incidencias($conexion, $idmarcabase);
+
+ $contacto = Consulta_Contacto($conexion, $idcontacto);
+
+ $escritodoc = Consulta_Escrito($conexion, $codigo);
+
+ $escritodoc = $escritodoc->Fields('Archivo')->value;
+
+ //$factura = Consulta_Factura($conexion, $codigo);
+
+ //$factura = $factura->Fields('Archivo')->value;
+
+ //cerrar_conexion($conexion);
+
+ //createMail($codigo, $cliente, $incidenciaOpuesta, $incidenciaBase, $contacto, $idioma, $vencimiento, $boletin);
+
+ /* $results = Consulta_Renovaciones_Json($conexion, $codigo, $idioma);
   
+  $contactos = array();
   while (!$results->EOF) {  
     $fv = $results->Fields("Codigo");
     $contactos[$fv->value] = $results->Fields("EInfoContacto")->value;
-    $archivos[$results->Fields('Codigo')->value] =  $results->Fields("Archivo")->value;
     $results->MoveNext(); 
-  
   }
 
 $results->MoveFirst();
@@ -50,23 +72,19 @@ borrar_results($results);
 
 $marcas = array();
 
-$marcas = obtener_datos_concedidas($conexion, $marcas, $expedientes);
+$marcas = obtener_datos_marcas($conexion, $marcas, $expedientes);
 
 cerrar_conexiones($conexion, $results);
 
 $envios = array();
 
-for ($i=0; $i<count($marcas); $i++)
-{ 
-  
-      $envios[$marcas[$i]['Codigo']] =  createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento);
-  
-    //"Ok";
-}
-
-/*$envios[$marcas[0]['Codigo']] = createMail($marcas[0], $clientes[$marcas[0]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[0]['Codigo']], $vencimiento);
 */
+
+    $envios[$codigo] = createMail($codigo, $cliente, $incidenciaOpuesta, $incidenciaBase, $contacto, $idioma, $escritodoc);
+
+
 $return["json"] = $envios;
+cerrar_conexion($conexion);
 
 echo json_encode($return);
 }

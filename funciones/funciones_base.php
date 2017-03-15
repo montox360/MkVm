@@ -29,6 +29,40 @@ $results = $conexion->Execute("SELECT B.Numero as BoletinNumero, EP.Codigo, C.Id
 return $results;
 }
 
+function Consulta_ratificaciones($conexion, $idioma){
+$results = $conexion->Execute("SELECT EP.Codigo, C.Id as ClienteId ,C.Nombre as ClienteNombre, D.Archivo, P.Nombre, EP.IdContacto, Co.Nombre as Contacto, MI.Id as IdMarcaBase,EP.IdMarcaOpuesta FROM ExpedientesPrimarios as EP, Clientes as C, Documentos as D, Paises as P, Contactos as Co, MarcasIncidencias as MI, Eventos as E WHERE EP.IdEstado = 1796 AND EP.IdCLiente = C.Id AND C.IdPais != 434 AND C.IdPais = P.Id AND EP.Id = D.IdExpediente AND D.Descripcion LIKE '%RATIFICACION DE OPOSICION PRESENT%' AND C.IdIdioma = ".$idioma." AND EP.Id = MI.IdExpediente AND EP.IdContacto = Co.Id AND C.Id = 8756 AND EP.Id = E.IdExpediente AND E.IdTipo = 787 AND E.Fecha > '2016-11-01' Order By P.Nombre, C.Nombre, EP.Codigo");
+	//OR E.IdContacto IS NULL) 
+return $results;
+}
+
+function Consulta_EscritoGenerar($conexion){
+
+	$results = $conexion->Execute("SELECT EP.Codigo,EP.Id, MI.Nombre, MI.Clase, MI.Id, MI.PropietarioCodigo, PR.Nombre as PropietarioNombre, PO.Numero, PA.Nacionalidad, PA.Nombre as PaisNombre, EP.FechaSolicitud, EP.IdMarcaOpuesta, PU.Tomo, PU.Pagina FROM ExpedientesPrimarios as EP, MarcasIncidencias as MI, Propietarios as PR, Poderes as PO, Paises as PA, Publicaciones as PU WHERE EP.IdCliente = 14404 AND EP.IdEstado = 1795 AND EP.Inactivo = 0 AND MI.IdExpediente = EP.Id AND (MI.PropietarioNombre LIKE PR.Nombre) AND PO.Id = PR.IdPoder AND PR.IdPais = PA.Id AND PU.IdExpedientePrincipal = EP.Id AND PU.IdTipoPublicacion = 35 Order By MI.Id");
+	//OR E.IdContacto IS NULL) 
+return $results;
+}
+
+function EscritoMarcaOpuesta($conexion, $oposiciones)
+{
+	$query = '';
+	$i = 0;
+	$len = count($oposiciones);
+	foreach($oposiciones as $item){
+		if($i===0)
+			$query = "(MI.Id =".$item;
+			else{
+				$query = $query." OR MI.Id =".$item;
+			}
+		if($i===($len-1)){
+			$query = $query.") ";
+		}
+		$i++;
+	}
+	$results = $conexion->Execute("SELECT MI.Nombre, MI.SolicitudNro, MI.Clase, MI.PropietarioNombre, MI.BoletinNro, MI.BoletinTomo, MI.BoletinPagina, MI.BoletinFecha FROM MarcasIncidencias as MI WHERE ".$query."Order By MI.Id");
+	echo "SELECT MI.Nombre, MI.SolicitudNro, MI.Clase, MI.PropietarioNombre, MI.BoletinNro, MI.BoletinTomo, MI.BoletinPagina, MI.BoletinFecha FROM MarcasIncidencias as MI WHERE ".$query."Order BY MI.Id";
+	return $results;
+}
+
 function Consulta_Oposiciones_Nacional($conexion, $boletin){
 $results = $conexion->Execute("SELECT B.Numero as BoletinNumero, EP.Codigo, C.Id as ClienteId, C.Nombre as ClienteNombre, EP.IdContacto, MI.Id as IdMarcaBase, EP.IdMarcaOpuesta
   FROM Publicaciones AS p, ExpedientesPrimarios as EP, Clientes as C, MarcasIncidencias as MI, Boletines as B
@@ -47,6 +81,16 @@ function Consulta_Codigo($conexion, $codigo){
 function Consulta_Cliente($conexion, $clienteid){
 	$results = $conexion->Execute("SELECT C.Nombre, C.InfoContactoEmail, C.DireccionLinea1, C.DireccionLinea2, C.DireccionLinea3, C.DireccionLinea4, C.DireccionCiudad, C.DireccionEstado, C.DireccionCodigoPostal, C.InfoContactoTelefono, P.Nombre as Pais FROM Clientes as C, Paises as P WHERE C.Id = ".$clienteid." AND P.Id = C.IdPais;");
 	return $results;
+}
+
+function Consulta_Factura($conexion, $codigo){
+	$results = $conexion->Execute("SELECT Archivo FROM Documentos as D, ExpedientesPrimarios as EP WHERE EP.Codigo = ".$codigo." AND D.IdExpediente = EP.Id AND D.Descripcion LIKE '%FACTURA%'");
+	return $results;	
+}
+
+function Consulta_Escrito($conexion, $codigo){
+	$results = $conexion->Execute("SELECT Archivo FROM Documentos as D, ExpedientesPrimarios as EP WHERE EP.Codigo = ".$codigo." AND D.IdExpediente = EP.Id AND D.Descripcion LIKE 'RATIFICACION DE OPOSICION PRESENTADA'");
+	return $results;	
 }
 
 function Consulta_Contacto($conexion, $contactoid){
@@ -68,7 +112,7 @@ function Consulta_Incidencia_Base($conexion, $codigo){
 function concedidas_onscreen($conexion, $idioma, $boletin){	
 	$results = $conexion->Execute("SELECT B.Numero, P.IdBoletin, E.Codigo, M.Nombre, D.Archivo
 FROM Boletines as B,  Publicaciones as P,  ExpedientesPrimarios as E, Clientes as C, Marcas as M, Documentos as D
-WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '".$boletin."' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 2 AND P.IdExpedientePrincipal = E.Id AND E.IdCliente = C.Id AND C.IdPais != 434 AND C.IdIdioma = ".$idioma." AND M.IdExpediente = E.Id AND E.IdEstado = 1456 AND E.Id = D.IdExpediente AND D.Descripcion LIKE '%CONCES%' Order By E.Codigo");/*SELECT B.Numero, P.IdBoletin, E.Codigo
+WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '".$boletin."' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 2 AND P.IdExpedientePrincipal = E.Id AND E.IdCliente = C.Id AND C.IdPais != 434 AND C.IdIdioma = ".$idioma." AND M.IdExpediente = E.Id AND E.IdEstado = 1456 AND E.Id = D.IdExpediente AND D.Descripcion LIKE '%CONCED%' Order By E.Codigo");/*SELECT B.Numero, P.IdBoletin, E.Codigo
 FROM Boletines as B,  Publicaciones as P,  ExpedientesPrimarios as E
 WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '564' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 1 AND P.IdExpedientePrincipal = E.Id*/
 echo "<div><table id =\"tabla_reporte\" class=\" col-lg-12 table table-bordered table-hover table-striped tablesorter renewals_onscreen;\">"; 
@@ -135,7 +179,7 @@ function solicitadas_onscreen($conexion, $idioma, $boletin){
 	
 	$results = $conexion->Execute("SELECT B.Numero, P.IdBoletin, E.Codigo, M.Nombre, D.Archivo
 FROM Boletines as B,  Publicaciones as P,  ExpedientesPrimarios as E, Clientes as C, Marcas as M, Documentos as D
-WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '".$boletin."' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 1 AND P.IdExpedientePrincipal = E.Id AND E.IdCliente = C.Id AND C.IdPais != 434 AND C.IdIdioma = ".$idioma." AND M.IdExpediente = E.Id AND E.Id = D.IdExpediente AND D.Descripcion LIKE 'PUBLICACION OFICIAL' Order By E.Codigo");/*SELECT B.Numero, P.IdBoletin, E.Codigo
+WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '".$boletin."' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 1 AND P.IdExpedientePrincipal = E.Id AND E.IdCliente = C.Id AND C.IdPais != 434 AND C.IdIdioma = ".$idioma." AND M.IdExpediente = E.Id AND E.Id = D.IdExpediente AND D.Descripcion LIKE 'PUBLICACI% OFICIAL' Order By E.Codigo");/*SELECT B.Numero, P.IdBoletin, E.Codigo
 FROM Boletines as B,  Publicaciones as P,  ExpedientesPrimarios as E
 WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '564' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 1 AND P.IdExpedientePrincipal = E.Id*/
 echo "<div><table id =\"tabla_reporte\" class=\" col-lg-12 table table-bordered table-hover table-striped tablesorter renewals_onscreen;\">"; 
@@ -164,6 +208,33 @@ echo"</table></div>";
 cerrar_conexiones($conexion, $results);
 }
 
+function certificados_onscreen($conexion, $idioma){
+	
+	$results = $conexion->Execute("SELECT E.Codigo, M.Nombre FROM ExpedientesPrimarios as E, Clientes as C, Marcas as M, Documentos as D
+WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND E.IdCliente = C.Id AND C.IdPais != 434 AND C.IdIdioma = ".$idioma." AND M.IdExpediente = E.Id AND M.IdPais = 434 AND E.IdEstado = 1433 AND E.Id = D.IdExpediente AND (D.Descripcion LIKE 'CERTIFICADO DE REGISTRO') Order By E.Codigo");/*SELECT B.Numero, P.IdBoletin, E.Codigo
+FROM Boletines as B,  Publicaciones as P,  ExpedientesPrimarios as E
+WHERE E.Tipo LIKE 'MARCA' AND E.Inactivo = 0 AND B.Numero = '564' AND B.Id = P.IdBoletin AND P.IdTipoPublicacion = 1 AND P.IdExpedientePrincipal = E.Id*/
+echo "<div><table id =\"tabla_reporte\" class=\" col-lg-12 table table-bordered table-hover table-striped tablesorter renewals_onscreen;\">"; 
+
+echo "<thead>
+        <tr>
+        	<th class=\"header\">Referencia<i class=\"fa fa-sort\"></i></th>
+        	<th class=\"header\">Marca<i class=\"fa fa-sort\"></i></th>
+        </tr>
+      </thead>";
+while (!$results->EOF) {  
+		echo "<tr>";
+		$fv = $results->Fields("Codigo");
+	    echo "<td id=\"Codigo\" code=\"".$fv->value."\">M".str_pad($fv->value, "6", "0", STR_PAD_LEFT)."</td>
+	    <td>".$results->Fields("Nombre")->value."</td>";
+	    $results->MoveNext(); 
+	    echo "</tr>";    
+} 
+echo"</table></div>";
+
+cerrar_conexiones($conexion, $results);
+}
+
 function Consulta_Concedidas_Json($conexion, $codigos){
 	$query ='';
 	$len = count($codigos);
@@ -180,7 +251,7 @@ function Consulta_Concedidas_Json($conexion, $codigos){
 		$i++;
 	}
 
-	$results = $conexion->Execute("SELECT E.IdCliente, E.Codigo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail as EInfoContacto, D.Archivo FROM ExpedientesPrimarios as E, Clientes as C, Contactos as Co, Documentos as D WHERE ".$query." AND E.IdCliente = C.Id AND Co.Id = E.IdContacto AND E.Id = D.IdExpediente AND D.Descripcion LIKE '%CONCES%' GROUP BY E.Codigo, E.IdCliente, D.Archivo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail"
+	$results = $conexion->Execute("SELECT E.IdCliente, E.Codigo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail as EInfoContacto, D.Archivo FROM ExpedientesPrimarios as E, Clientes as C, Contactos as Co, Documentos as D WHERE ".$query." AND E.IdCliente = C.Id AND Co.Id = E.IdContacto AND E.Id = D.IdExpediente AND D.Descripcion LIKE '%CONCED%' GROUP BY E.Codigo, E.IdCliente, D.Archivo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail"
 		 );
 	return $results;
 }
@@ -266,10 +337,54 @@ function Consulta_Solicitadas_Json($conexion, $codigos){
 		$i++;
 	}
 
-	$results = $conexion->Execute("SELECT E.IdCliente, E.Codigo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail as EInfoContacto, D.Archivo FROM ExpedientesPrimarios as E, Clientes as C, Contactos as Co, Documentos as D WHERE ".$query." AND E.IdCliente = C.Id AND Co.Id = E.IdContacto AND E.Id = D.IdExpediente AND D.Descripcion LIKE 'PUBLICACION OFICIAL%' GROUP BY E.Codigo, E.IdCliente, D.Archivo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail"
+	$results = $conexion->Execute("SELECT E.IdCliente, E.Codigo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail as EInfoContacto, D.Archivo FROM ExpedientesPrimarios as E, Clientes as C, Contactos as Co, Documentos as D WHERE ".$query." AND E.IdCliente = C.Id AND Co.Id = E.IdContacto AND E.Id = D.IdExpediente AND D.Descripcion LIKE 'PUBLICACI% OFICIAL%' GROUP BY E.Codigo, E.IdCliente, D.Archivo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail"
 		 );
 	return $results;
 }
+
+function Consulta_Certificados_Json($conexion, $codigos){
+	$query ='';
+	$len = count($codigos);
+	$i = 0;
+	foreach($codigos as $item){
+		if($i===0)
+			$query = "(E.Codigo =".$item;
+			else{
+				$query = $query." OR E.Codigo =".$item;
+			}
+		if($i===($len-1)){
+			$query = $query.") ";
+		}
+		$i++;
+	}
+
+	$results = $conexion->Execute("SELECT E.IdCliente, E.Codigo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail as EInfoContacto, D.Archivo FROM ExpedientesPrimarios as E, Clientes as C, Contactos as Co, Documentos as D WHERE ".$query." AND E.IdCliente = C.Id AND Co.Id = E.IdContacto AND E.Id = D.IdExpediente AND D.Descripcion LIKE 'CERTIFICADO DE REGISTRO%' GROUP BY E.Codigo, E.IdCliente, D.Archivo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail"
+		 );
+	return $results;
+}
+
+
+function Consulta_facturas_certificados($conexion, $codigos){
+	$query ='';
+	$len = count($codigos);
+	$i = 0;
+	foreach($codigos as $item){
+		if($i===0)
+			$query = "(E.Codigo =".$item;
+			else{
+				$query = $query." OR E.Codigo =".$item;
+			}
+		if($i===($len-1)){
+			$query = $query.") ";
+		}
+		$i++;
+	}
+
+	$results = $conexion->Execute("SELECT E.IdCliente, E.Codigo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail as EInfoContacto, D.Archivo FROM ExpedientesPrimarios as E, Clientes as C, Contactos as Co, Documentos as D WHERE ".$query." AND E.IdCliente = C.Id AND Co.Id = E.IdContacto AND E.Id = D.IdExpediente AND D.Descripcion LIKE '%FACTURA%' GROUP BY E.Codigo, E.IdCliente, D.Archivo, C.Nombre, C.InfoContactoEmail, Co.InfoContactoEmail"
+		 );
+	return $results;
+}
+
 
 
 
@@ -461,13 +576,15 @@ echo "<thead>
             <th class=\"header\">Contacto Mail<i class=\"fa fa-sort\"></i></th>
         </tr>
       </thead>";
+      $count = 0;
 while (!$results->EOF) {  
 		echo "<tr>";
 		$fv = $results->Fields("Codigo");
 	    echo "<td id=\"Codigo\" code=\"".$fv->value."\">M".str_pad($fv->value, "6", "0", STR_PAD_LEFT)."</td><td>".$results->Fields("Nombre")->value."</td><td>".$results->Fields("InfoContactoEmail")->value."</td><td>".$results->Fields("EInfoContacto")->value."</td>"; 
 	    $results->MoveNext(); 
 	    echo "</tr>";    
-} 
+	    $count++;
+}
 echo"</table></div>";
 
 cerrar_conexiones($conexion, $results);
@@ -475,6 +592,7 @@ cerrar_conexiones($conexion, $results);
 
 function oposiciones_onscreen($conexion, $idioma, $boletin)
 {
+
 $results = Consulta_Oposiciones($conexion, $idioma, $boletin);  
 
 echo "<div><table id =\"tabla_reporte\" class=\" col-lg-12 table table-bordered table-hover table-striped tablesorter renewals_onscreen;\">"; 
@@ -494,6 +612,37 @@ while (!$results->EOF) {
 		echo "<tr id=\"caso\">";
 		$fv = $results->Fields("Codigo");
 	    echo "<td>".$counter."</td><td>".$results->Fields("BoletinNumero")->value."</td><td id=\"referencia\" referencia=\"".$fv->value."\">AT".str_pad($fv->value, "6", "0", STR_PAD_LEFT)."</td><td ClienteId = \"".$results->Fields("ClienteId")->value."\">".$results->Fields("ClienteNombre")->value."</td><td IdContacto = \"".$results->Fields("IdContacto")->value."\">".$results->Fields("Contacto")->value."</td><td IdMarcaBase = \"".$results->Fields("IdMarcaBase")->value."\">".$results->Fields("IdMarcaBase")->value."</td><td IdMarcaOpuesta = \"".$results->Fields("IdMarcaOpuesta")->value."\">".$results->Fields("IdMarcaOpuesta")->value."</td>"; 
+	    $results->MoveNext(); 
+	    echo "</tr>"; 
+	    $counter++;   
+} 
+echo"</table></div>";
+
+cerrar_conexiones($conexion, $results);
+}
+
+function ratificaciones_onscreen($conexion, $idioma)
+{
+
+$results = Consulta_ratificaciones($conexion, $idioma);  
+
+echo "<div><table id =\"tabla_reporte\" class=\" col-lg-12 table table-bordered table-hover table-striped tablesorter renewals_onscreen;\">"; 
+$counter = 1;
+echo "<thead>
+        <tr>
+        	<th class=\"header\">#<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Referencia<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Cliente Nombre<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Contacto<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">ID Marca Base<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">Id Marca Opuesta<i class=\"fa fa-sort\"></i></th>
+            <th class=\"header\">URL ....<i class=\"fa fa-sort\"></i></th>
+        </tr>
+      </thead>";
+while (!$results->EOF) {  
+		echo "<tr id=\"caso\">";
+		$fv = $results->Fields("Codigo");
+	    echo "<td>".$counter."</td><td id=\"referencia\" referencia=\"".$fv->value."\">AT".str_pad($fv->value, "6", "0", STR_PAD_LEFT)."</td><td ClienteId = \"".$results->Fields("ClienteId")->value."\">".$results->Fields("ClienteNombre")->value."</td><td IdContacto = \"".$results->Fields("IdContacto")->value."\">".$results->Fields("Contacto")->value."</td><td IdMarcaBase = \"".$results->Fields("IdMarcaBase")->value."\">".$results->Fields("IdMarcaBase")->value."</td><td IdMarcaOpuesta = \"".$results->Fields("IdMarcaOpuesta")->value."\">".$results->Fields("IdMarcaOpuesta")->value."</td><td><a href=\"http://mkgalena.puntoip.info/docs_at/".$results->Fields("Archivo")->value."\" target=\"_blank\">http://mkgalena.puntoip.info/docs_at/".$results->Fields("Archivo")->value."</a></td>"; 
 	    $results->MoveNext(); 
 	    echo "</tr>"; 
 	    $counter++;   

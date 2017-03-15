@@ -24,7 +24,7 @@
         <!-- Add your site or application content here -->
         <div class="container">
         <form action="./MkOpp.php" method="POST" role="form">
-            <legend>CONCEDIDAS MAIL - EXTERIOR</legend>
+            <legend>RATIF OPOSICIONES MAIL - EXTERIOR</legend>
             <div class="form-group">
                 <label style="padding-top: 10px">
                         <label for"">Numero de Boletin:</label><br>

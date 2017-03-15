@@ -2,9 +2,10 @@
 require '../PHPClass/PHPMailerAutoload.php';
 
 
-function createMail($marca, $cliente, $contactos, $idioma, $archivo, $vencimiento){
+function createMail($marca, $cliente, $contactos, $idioma, $certificado, $factura){
 $mail = new PHPMailer;
-$archivo = "http://mkgalena.puntoip.info/docs_ma/".$archivo;
+$certificado = "http://mkgalena.puntoip.info/docs_ma/".$certificado;
+$factura = "http://mkgalena.puntoip.info/docs_ma/".$factura;
 //$mail->SMTPDebug = 3;                               // Enable verbose debug output
 
 $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -16,16 +17,23 @@ $mail->Username = 'publicaciones_boletin@mkmarcas.com';                 // SMTP 
 $mail->Password = 'Nightfire123!';                           // SMTP password
 $mail->SMTPSecure = 'tsl';                            // Enable TLS encryption, `ssl` also accepted
 $mail->Port = 587;  
-                                  // TCP port to connect to
+$mail->CharSet = 'UTF-8';                                  // TCP port to connect to
 
 $mail->setFrom('exterior@mkmarcas.com', 'Montoya, Kociecki & Asociados');
 $arr = explode(',',str_replace(' ', '', $cliente['ClienteMail']));
 if($idioma==1)
-{$mail->addStringAttachment(file_get_contents($archivo), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");}
+{
+    $mail->addStringAttachment(file_get_contents($certificado), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");
+    $mail->addStringAttachment(file_get_contents($factura), "Nota Debito.pdf");
+}
 else
-{$mail->addStringAttachment(file_get_contents($archivo), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");}
+{
+    $mail->addStringAttachment(file_get_contents($certificado), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");
+    $mail->addStringAttachment(file_get_contents($factura), "Debit Note.pdf");
+}
 
 //$mail->addAddress("montox360@gmail.com");
+//$mail->addAddress("amontoya@mkmarcas.com");
 
 foreach ($arr as $value)
 {
@@ -38,26 +46,26 @@ $conarr = explode(',', str_replace(' ', '', $contactos[$marca['Codigo']]));
 foreach($conarr as $contac){
     $mail->addAddress($contac);
 }
-//$mail->addAddress('lmontoya@mkmarcas.com');
-// Add a recipient
-//$mail->addAddress('lmontoya@mkmarcas.com');
-	//$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]);
 $mail->addReplyTo('exterior@mkmarcas.com', 'Montoya, Kociecki & Asociados');
 $mail->addBCC('publicaciones_boletin@mkmarcas.com');
+// Add a recipient
+//$mail->addAddress('lmontoya@mkmarcas.com');
+    //$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]);
 
 $mail->isHTML(true);                                  // Set email format to HTML
 
 
 if($idioma==2){
-$mail->Subject = "NEWSPAPER PUBLICATION ORDER! Trademark: ".$marca['NombreMarca'].", Application No. ".$marca['Solicitud'].", in Int Class ".$marca['ClaseInt']." in Official Bulletin: 572, in Venezuela, o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
+$mail->Subject = "CERTIFICATE OF REGISTRATION, Trademark: ".$marca['NombreMarca']." - Appln No. ".$marca['Solicitud']." in Class ".$marca['ClaseInt'].", in Venezuela o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }else{
-	$mail->Subject = "ORDEN DE PUBLICACION EN PRENSA! Marca: ".$marca['NombreMarca'].", Inscripcion No. ".$marca['Solicitud'].", en Clase ".$marca['ClaseInt'].", en Boletin Oficial 572, en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
+	$mail->Subject = "CERTIFICADO DE REGISTRO, Marca: ".$marca['NombreMarca']." - Inscripción No. ".$marca['Solicitud']." , en Clase ".$marca['ClaseInt']."
+ en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }
 
 if($idioma==2)
 {
 
-$mail->Body    ="<p align=\"right\">Caracas, February 28, 2017.</p>
+$mail->Body ="<body style='font-family:sans-serif'><p align=\"right\">Caracas, March 07, 2016.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -67,38 +75,29 @@ e-mail: ".$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]."<br>
 <br>
 Re: ".$marca['Propietario']."<br>
 &nbsp; &nbsp; &nbsp; Trademark:&nbsp;<b>".$marca['NombreMarca']."</b><br>
-&nbsp; &nbsp; &nbsp; Application No. ".$marca['Solicitud'].", in Int Class&nbsp;".$marca['ClaseInt'].",(local class ".$marca['ClaseLocal'].")&nbsp;in&nbsp;Official Bulletin: 572, in&nbsp;Venezuela<br>
+&nbsp; &nbsp; &nbsp; Application No. ".$marca['Solicitud'].", in Int Class&nbsp;".$marca['ClaseInt'].",(local class ".$marca['ClaseLocal'].") in&nbsp;Venezuela<br>
 &nbsp; &nbsp; &nbsp; o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT)."<br>
 <br>
-Status:&nbsp;<b>NEWSPAPER PUBLICATION ORDER.</b><br>
+Status:&nbsp;<b>REGRISTRATION</b><br>
 <br>
-<b>Important:&nbsp;</b>NEWSPAPER PUBLICATION ORDER, Deadline: <b>".$vencimiento."</b> <br>
+<b>Important:&nbsp;</b>REGISTRATION<br>
 <br>
 Dear Sirs:<br>
-<br>
 <div align=\"justify\">
-Due to the recent change of IP Law, in our country, the publication of
-trademarks  must be first effected in a daily newspaper and afterwards
-published in the Official Bulletin.<br>
+Please be informed that the Trademark Office has issued the certificate of registration for the trademark quoted in the reference.<br>
 <br>
-The  cost of the publication in a Sapi digital newspaper is US$ 106.00
-plus US$ 110.00 for our service charges. In case you have already paid in advance for this service or if we have
-a special agreement between our offices, please omit the charges informed
-in this e-mail.<br>
+For your information, the trademark office, lately, has been issuing the certificates as already signed and stamped digital copies. That is the reason that we are no longer sending the physical original copy of the certificate, thus we are not charging the DHL Courier fee in our debit note<br> 
 <br>
-The  publication  must  be  effected  as soon as possible, immediately
-after  the  publication  notice  appears  in the Official Bulletin. We
-would  therefore  need  your  immediate  response,  if  the  client is
-interested in following the registration procedure.<br>
+In case you wish to obtain the physical copy of the certificate we could make a quality print of the certificate and send it to your offices, but it would incurr in Courier expenses.<br>
 <br>
-Please  respond  by return mail, if we are allowed to proceed with the
-publication and that our estimated costs will be paid.<br>
+Please find attached the Certificate of Registration, along with our debit note regarding the obtention of the certificate and our surveillance service for the next 15 years.<br>
 <br>
-Your prompt attention to this message is appreciated.<br>
+This trademark will remain in force for a period of 15 years from its granting date.<br>
 <br>
-Very truly yours,<br>
+Best regards,<br>
 <br>
-MONTOYA, KOCIECKI & ASOCIADOS.</div>
+Luis Carlos Montoya<br>
+MONTOYA, KOCIECKI & ASOCIADOS.</div></body>
 ";}
 
 /*Dear Sirs:<br>
@@ -132,7 +131,7 @@ Best regards.<br>
 MONTOYA, KOCIECKI & ASOCIADOS.</div>";
 */
 else{
-$mail->Body    ="<p align=\"right\">Caracas, Febrero 28, 2017.</p> 
+$mail->Body    ="<body style='font-family:sans-serif'><p align=\"right\">Caracas, Marzo 07, 2016.</p> 
 Se&ntilde;ores<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -142,38 +141,30 @@ e-mail: ".$cliente['ClienteMail'].", ".$contactos[$marca['Codigo']]."<br>
 <br>
 Ref:  ".$marca['Propietario']."<br>
 &nbsp; &nbsp; &nbsp; Marca:&nbsp;<b>".$marca['NombreMarca']."</b><br>
-&nbsp; &nbsp; &nbsp; Inscripci&oacute;n No. ".$marca['Solicitud']."; en Clase Internacional&nbsp;".$marca['ClaseInt'].", en Boletin Oficial: 572, en Venezuela<br>
+&nbsp; &nbsp; &nbsp; Inscripci&oacute;n No. ".$marca['Solicitud']."; en Clase Internacional&nbsp;".$marca['ClaseInt'].", en Venezuela<br>
 &nbsp; &nbsp; &nbsp; n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT)."<br>  
 <br>
-Estado actual: &nbsp;<b>".$marca['Estado']."</b><br>
-<br>
-Vencimiento: <b>".$vencimiento."</b><br>
+Estado actual: &nbsp;<b>REGISTRO</b><br>
 <br>
 Estimados se&ntilde;ores:<br>
 <div align=\"justify\">
-
-En  vista  de  los  cambios  de  ley  de  la  Propiedad Industrial, en
-Venezuela,  las solicitudes de registro de marcas deben ser publicadas
-en  un  peri&oacute;dico de circulaci&oacute;n diaria y posteriormente en el Bolet&iacute;n
-de la Propiedad Industrial.<br>
 <br>
-El  costo  de la publicaci&oacute;n arriba mencionada en el Peri&oacute;dico Digital
-del SAPI es de US$ 106.00 m&aacute;s US$ 110.00 por nuestros servicios. En caso de que hayan pagado por adelantado o se haya llegado a un acuerdo especial
-entre nuestras oficinas, por favor omita las tarifas informadas en este correo.<br>
+Por  medio  de  la  presente,  les  informamos que el certificado de registro para la marca citada en la referencia ha sido emitido.<br>
 <br>
-La  publicaci&oacute;n  en  prensa  debe ser efectuada en el peri&oacute;dico lo mas
-pronto  posible  una  vez  sea  ordenada en el Bolet&iacute;n Oficial. Por lo
-tanto agradecemos recibir una pronta respuesta manifestando su inter&eacute;s
-en  la  continuaci&oacute;n  del  tr&aacute;mite.  El no cumplimiento del mencionado
-requisito  dentro  del  lapso  previsto  traer&aacute;  como  consecuencia el
-abandono de la solicitud.<br>
+La oficina de Marcas en Venezuela ha estado emitiendo durante éste año los certificados de registro de manera digital, esta copia digital ya viene directamente sellada y firmada por la oficina de Marcas. Es por esto que no estamos enviando copias fisicas del certificado a sus oficinas y no estamos cargando los gastos de envío de correo especial en nuestras facturas<br>
 <br>
-Quedamos a la espera de sus instrucciones.<br>
+En caso de que usted requiera una copia fisica del certificado, nosotros procederíamos a hacer una impresión de calidad del documento anexo, y procederíamos a enviarlo a sus oficinas vía correo especial, lo cual incurriría en gastos por envío.<br>
+<br>
+Este caso se mantendrá en vigencia por los próximos 15 años, desde su fecha de concesión.
+<br>
+Encuentre anexa la emisión digital del certificado de registro junto con nuestra factura por servicios de obtención del certificado y vigilancia del caso por los próximos 15 años.<br>
+<br>
+Sin más a que hacer mención, les saludamos,<br>
 <br>
 Atentamente,<br>
 <br>
-MONTOYA, KOCIECKI & ASOCIADOS.</div>";
-}
+Luis Carlos Montoya<br>
+MONTOYA, KOCIECKI & ASOCIADOS.</div></body>";}
 
 
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';

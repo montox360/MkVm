@@ -58,8 +58,7 @@ $envios = array();
 
 for ($i=0; $i<count($marcas); $i++)
 { 
-  if($i>64)
-  $envios[$marcas[$i]['Codigo']] =  createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento);//"Ok";
+  $envios[$marcas[$i]['Codigo']] =  createMail($marcas[$i], $clientes[$marcas[$i]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[$i]['Codigo']], $vencimiento);//}"Ok";
 }
 
 /*$envios[$marcas[0]['Codigo']] = createMail($marcas[0], $clientes[$marcas[0]['IdCliente']], $contactos, $return['idioma'], $archivos[$marcas[0]['Codigo']], $vencimiento);

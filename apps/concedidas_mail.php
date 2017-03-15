@@ -24,6 +24,7 @@ if($idioma==1)
 {$mail->addStringAttachment(file_get_contents($archivo), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");}
 else
 {$mail->addStringAttachment(file_get_contents($archivo), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");}
+
 //$mail->addAddress("montox360@gmail.com");
 
 foreach ($arr as $value)
@@ -48,17 +49,16 @@ $mail->isHTML(true);                                  // Set email format to HTM
 
 
 if($idioma==2){
-$mail->Subject = "OFFICIALLY GRANTED! Trademark: ".$marca['NombreMarca'].", Application No. ".$marca['Solicitud'].", in Int Class ".$marca['ClaseInt']."
+$mail->Subject = "OFFICIALLY GRANTED! Trademark: ".$marca['NombreMarca'].", Application No. ".$marca['Solicitud'].", in Int Class ".$marca['ClaseInt']." Official Bulletin: 572
  in Venezuela, o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }else{
-	$mail->Subject = "CONCESION OFICIAL! Marca: ".$marca['NombreMarca'].", Inscripcion No. ".$marca['Solicitud'].", en Clase ".$marca['ClaseInt']."
- en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
+	$mail->Subject = "CONCESION OFICIAL! Marca: ".$marca['NombreMarca'].", Inscripcion No. ".$marca['Solicitud'].", en Clase ".$marca['ClaseInt'].", Boletin Oficial: 572, en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }
 
 if($idioma==2)
 {
 
-$mail->Body    ="<p align=\"right\">Caracas, August 22, 2016.</p>
+$mail->Body    ="<p align=\"right\">Caracas, February 21, 2017.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -90,6 +90,8 @@ executing  the  wire-transfer directly to the bank account of the PTO,
 we are suggesting to execute the transfer directly to our bank account
 at least 10 days before the deadline.<br>
 <br>
+In case we have a special agreement with you regarding the payment of the registration fees, please omit the last paragraph. <br>
+<br>
 The  total  amount  to pay for the final fees and our services is: US$
 1,450.00.  If  you require our debit note in advance for this concept,
 please let us know and we will send it to you immediately.<br>
@@ -103,13 +105,19 @@ Account No.: 1002027106<br>
 ABA No.    : 066009155<br>
 SWIFT      : TLBKUS3M<br>
 <br>
-Taking  into account the new ruling in Venezuela, it is very important
-that  before  giving  instructions  or  make transfers to renew should
-consult  on possible reclassifications to local classes in Venezuela ,
-if applicable.<br>
+Please be informed that the Venezuelan Government has issued an official notification in which they notify that the Official Taxes will be increased by 70% as of March 1st, 2017. <br> 
 <br>
-Take  into  account  that  the  retrieval  of  the  registration
-certificate at the moment of its issuance and the surveillance service of the trademark until the next expiration date will have a cost of US$ 105.00 + Courier.<br>
+The costs informed in this e-mail will only be available until February 24th, since on Monday and Tuesday February 27th and 28th were declared as holidays. <br>
+<br>
+In case you wish to maintain the costs informed above we would need to receive your payment and instructions before February 24th.<br>
+<br>
+The new costs for a trademark granting are as follows: <br>
+Official Fees:&nbsp;&nbsp;&nbsp;<b>USD 1,995.00 (Including Bank Expenses)</b><br>
+Service Charges: <b>USD 200.00 </b><br>
+<br>
+Total: <b>USD 2,195.00</b><br>
+<br>
+We remain expecting your payment and instruction in case you wish to proceed with the trademark granting.<br>
 <br>
 Very truly yours,<br>
 <br>
@@ -147,7 +155,7 @@ Best regards.<br>
 MONTOYA, KOCIECKI & ASOCIADOS.</div>";
 */
 else{
-$mail->Body    ="<p align=\"right\">Caracas, Agosto 22, 2016.</p> 
+$mail->Body    ="<p align=\"right\">Caracas, Febrero 13, 2016.</p> 
 Se&ntilde;ores<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -191,6 +199,8 @@ Direcci&oacute;n  : 100 SE 2nd Street, floor 14.<br>
 Cuenta No. : 1002027106<br>
 ABA No.    : 066009155<br>
 SWIFT      : TLBKUS3M<br>
+<br>
+Si usted tiene alg&uacute;n acuerdo especial con respecto al pago de los gastos oficiales de registro con nuestra oficina, por favor omita este &uacute;ltimo requerimiento.
 <br>
 Por  favor,  tomar  en  cuenta que el retiro del
 certificado  de  registro  al  momento  de su emisión mas la vigilancia de la marca hasta su pr&oacute;ximo vencimiento, tendrá un costo adicional de US$ 105.00 + Courier<br>

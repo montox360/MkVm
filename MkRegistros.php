@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -24,42 +23,10 @@
         <![endif]-->
         <!-- Add your site or application content here -->
         <div class="container">
-        <form action="./MkSolicitadas.php" method="POST" role="form">
+        <?php include_once 'funciones/funciones_base.php';?>
+        <form action="./MkRegistros.php" method="POST" role="form">
         	<legend>SOLICITADAS MAIL - EXTERIOR</legend>
         	<div class="form-group">
-                <label style="padding-top: 10px">
-                        <label for"">Numero de Boletin:</label><br>
-                        <select name="boletin" id="boletin">
-                        <option value='' selected></option>
-                            <?php 
-                                include_once 'funciones/funciones_base.php';
-                                $conexion = ConectToDatabase();
-                                $results = Consulta_Boletines($conexion);
-                                echo "";
-                                while (!$results->EOF){
-                                    if(isset($_POST['boletin'])){
-                                        if($_POST['boletin'] == $results->Fields('Numero')->value){
-                                        echo "<option value=".$results->Fields('Numero')->value." selected>".$results->Fields('Numero')->value."</option>";
-                                        }
-                                        else{
-                                            echo "<option value=".$results->Fields('Numero')->value.">".$results->Fields('Numero')->value."</option>";
-                                        }
-                                        }
-                                        else{
-                                        echo "<option value=".$results->Fields('Numero')->value.">".$results->Fields('Numero')->value."</option>";}
-                                        $results->MoveNext(); 
-                                    }
-                                cerrar_conexiones($conexion, $results);
-                            ?>
-                        </select>
-                    </label><br>
-                    <label>
-                    <label>Introduzca vencimiento de Boletin</label><br>
-                        <input type="text" name="vencimiento" <?php if(isset($_POST['vencimiento']))
-                        {echo "value=\"".$_POST['vencimiento']."\"";}
-                        ?>
-                    >
-                    </label><br>
         		<label for="">Idioma</label>
         		<select name="Idioma" id="input" class="form-control" required="required">
         			<option value="1"  <?php if(isset($_POST['Idioma']) && $_POST['Idioma']==1)echo "selected";?>>Espa&ntilde;ol</option>
@@ -84,23 +51,16 @@
         </div>
         <div id="divLoading"></div>
 <?php
-        if(isset($_POST['reporte'])&& $_POST['reporte']==1 && isset($_POST['boletin']) && $_POST['boletin'] != '')
+        if(isset($_POST['reporte'])&& $_POST['reporte']==1)
         {            
             $conexion = ConectToDatabase();
             echo "<div class=\"tabla_contenedor\">";
-            
-            solicitadas_onscreen($conexion, $_POST['Idioma'], $_POST['boletin']);
+            certificados_onscreen($conexion, $_POST['Idioma']);
             echo "</div>";
             //correos_exterior_ingles();
         }
-        else if(isset($_POST['reporte']) && $_POST['boletin'] == '')
-        {
-            echo "<div style = \"margin: 10px auto; width: 50%\"class=\"alert alert-danger\" role=\"alert\">
-            <a href=\"#\" class=\"alert-link\">ELIJA UN NUMERO DE BOLETIN VALIDO</a>
-            </div>";
-        }
 
 ?>
-    <script src="js/solicitadas_ajax.js"></script>
+    <script src="js/registros_ajax.js"></script>
     </body>
     </html>

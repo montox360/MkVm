@@ -24,6 +24,7 @@ if($idioma==1)
 {$mail->addStringAttachment(file_get_contents($archivo), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");}
 else
 {$mail->addStringAttachment(file_get_contents($archivo), "M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT).".pdf");}
+
 //$mail->addAddress("montox360@gmail.com");
 
 foreach ($arr as $value)
@@ -47,7 +48,7 @@ $mail->isHTML(true);                                  // Set email format to HTM
 
 
 if($idioma==2){
-$mail->Subject = "OFFICIAL PUBLICATION Bulletin No ".$boletin.", Trademark: ".$marca['NombreMarca']." - Appln No. ".$marca['Solicitud']." in Class ".$marca['ClaseInt'].", in Venezuela o/ref: ".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
+$mail->Subject = "OFFICIAL PUBLICATION Bulletin No ".$boletin.", Trademark: ".$marca['NombreMarca']." - Appln No. ".$marca['Solicitud']." in Class ".$marca['ClaseInt'].", in Venezuela o/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
 }else{
 	$mail->Subject = "PUBLICACIÓN OFICIAL Boletín No. ".$boletin.", Marca: ".$marca['NombreMarca']." - Inscripción No. ".$marca['Solicitud']." , en Clase ".$marca['ClaseInt']."
  en Venezuela, n/ref: M".str_pad($marca['Codigo'], "6", "0", STR_PAD_LEFT);
@@ -56,7 +57,7 @@ $mail->Subject = "OFFICIAL PUBLICATION Bulletin No ".$boletin.", Trademark: ".$m
 if($idioma==2)
 {
 
-$mail->Body ="<body style='font-family:sans-serif'><p align=\"right\">Caracas, August 22, 2016.</p>
+$mail->Body ="<body style='font-family:sans-serif'><p align=\"right\">Caracas, Diciembre 09, 2016.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -122,7 +123,7 @@ Best regards.<br>
 MONTOYA, KOCIECKI & ASOCIADOS.</div>";
 */
 else{
-$mail->Body    ="<body style='font-family:sans-serif'><p align=\"right\">Caracas, Agosto 22, 2016.</p> 
+$mail->Body    ="<body style='font-family:sans-serif'><p align=\"right\">Caracas, Diciembre 09, 2016.</p> 
 Se&ntilde;ores<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
@@ -139,6 +140,7 @@ Estado actual: &nbsp;<b>PUBLICACION OFICIAL</b><br>
 <br>
 Estimados se&ntilde;ores:<br>
 <div align=\"justify\">
+<br>
 Por  medio  de  la  presente,  les  informamos  que  la  solicitud  en
 referencia  fue  publicada  en  el Boletín Oficial arriba identificado
 para efectos de oposición.<br>

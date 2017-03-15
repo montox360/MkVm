@@ -44,7 +44,7 @@ $mail->Subject = "RENEWAL REMINDER! Trademark: ".$marca['NombreMarca'].", Applic
 
 if($idioma==2)
 {
-$mail->Body    ="<p align=\"right\">Caracas, May 5, 2016.</p>
+$mail->Body    ="<p align=\"right\">Caracas, February 12, 2017.</p>
 Messrs<br>
 <b>".$cliente['ClienteNombre']."</b><br>
 ".$cliente['ClienteDireccion']."<br>
